@@ -126,7 +126,7 @@ app.post("/like", async (req, res) => {
         if (result.rowCount === 0 ) {
             await db.query("INSERT INTO likes (like_id) VALUES ($1) ON CONFLICT DO NOTHING", [likeid]
 );
-        }
+  }
 
         res.redirect(req.get("Referer") || "/");
     } catch (err) {
