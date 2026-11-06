@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>New Movie</title>
+</head>
+
+<body>
+   <%- include("partials/header.ejs") %>
+
+      <% if (locals.movie) { %>
+         <form action="/edit" method="post">
+            <input type="hidden" name="EditId" value="<%= movie.id %>">
+
+            <h2><label for="movieName">Movie</label></h2>
+            <input id="movieName" name="MovieName" value="<%= movie.movie_name %>" required>
+
+            <h2><label for="genre">Genre</label></h2>
+            <input id="genre" name="Genre" value="<%= movie.genre %>">
+
+            <h2><label for="notes">Notes</label></h2>
+            <textarea id="notes" name="notes"><%= movie.notes %></textarea>
+            <h2>Rating</h2>
+            <div class="star-rating">
+               <input type="radio" id="star5" name="rating" value="5" <%=movie.rating==5 ? "checked" : "" %>><label for="star5">★</label>
+               <input type="radio" id="star4" name="rating" value="4" <%=movie.rating==4 ? "checked" : "" %>><label for="star4">★</label>
+               <input type="radio" id="star3" name="rating" value="3" <%=movie.rating==3 ? "checked" : "" %>><label for="star3">★</label>
+               <input type="radio" id="star2" name="rating" value="2" <%=movie.rating==2 ? "checked" : "" %>><label for="star2">★</label>
+                <input type="radio" id="star1" name="rating" value="1" <%=movie.rating==1 ? "checked" : "" %>><label for="star">★</label>
+            </div>
+            <button type="submit">Save</button>
+
+         </form>
+         <% } else { %>
+
+            <form action="/add" method="post">
+               <h2> <label for="title">Movie</label></h2>
+               <input name="MovieName" placeholder="Movie name"></input>
+               <h2> <label for="Genre">Genre</label></h2>
+               <input name="Genre" placeholder="Genre"></input>
+               <h2> <label for="notes">Notes</label> </h2>
+               <textarea name="notes" id="notes"
+                  placeholder="Write what you like or not like about this movie"></textarea>
+               <h2>Rating</h2>
+               <div class="star-rating">
+                  <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+                  <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+                  <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+                  <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+                  <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+               </div>
+               <button type="submit">Submit</button>
+
+            </form>
+            <% } %>
+               <%- include("partials/footer.ejs") %>
+</body>
+
+</html>

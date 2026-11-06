@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+
+</head>
+<body>
+    <%- include("partials/header.ejs") %>
+    <section class="hero">
+  <div class="beam"></div>
+
+  <p class="hero-small">MOVIE DIARY</p>
+  <h2 class="hero-title">Reel<span>Notes</span></h2>
+  <p class="hero-line">Watch it. Rate it. Remember it.</p>
+
+  <p class="hero-text">
+    Save every movie you watch, rate it with stars and write your own notes.
+    Tap the heart to keep your favourites close.
+    Search or filter anytime to find that one movie again.
+  </p>
+
+  <% if (movies.length) { %>
+    <div class="ticker">
+      <div class="ticker-track">
+        <% for (let i = 0; i < 2; i++) { %>
+          <% movies.forEach(m => { %>
+            <span><%= m.movie_name %></span><b>★</b>
+          <% }) %>
+        <% } %>
+      </div>
+    </div>
+  <% } %>
+</section>
+
+<h2 class="section-title"><%= locals.pageTitle || "All Movies" %></h2>
+
+    <div class="movies">
+  
+  <% for (let movie of movies) { %>
+    <div class="movie-card">
+      
+      <% if (movie.poster) { %>
+    
+        <img class="movie-poster" src="<%= movie.poster %>" alt="<%= movie.movie_name %>">
+      <% } %>
+      <h2 class="movie-name"><%= movie.movie_name %></h2>
+      <p class="movie-genre">Genre: <%= movie.genre %></p>
+      <p class="movie-notes"><%= movie.notes %></p>
+      <% const r = Math.min(movie.rating || 0, 5); %>
+      <p class="stars"><%= "★".repeat(r) + "☆".repeat(5 - r) %></p>
+
+      <div class="card-actions">
+    
+        <form class="like-form" action="/like" method="post">
+          <input type="hidden" name="likeId" value="<%= movie.id %>">
+          <button type="submit" class="like-btn <%= movie.like_id ? 'liked' : '' %>"><i class="fa-solid fa-heart"></i></button>
+          </form>
+
+        <form class="delete-form" action="/delete" method="post">
+          <input type="hidden" name="deleteId" value="<%= movie.id %>">
+          <button type="submit" class="delete-btn"><i class="fa-solid fa-trash"></i></button>
+        </form>
+    
+
+        <a href="/EditMovie?id=<%= movie.id %>" class="edit-btn" title="Edit">
+          <i class="fa-solid fa-pen"></i>
+        </a>
+      </div>
+      </div>
+  <% } %>
+  <a href="/new" class="add-btn">+</a>
+
+</div>
+<script>
+
+document.querySelectorAll(".like-btn").forEach((btn) =>{
+  btn.addEventListener("click", () => btn.classList.toggle("liked"));
+})
+
+</script>
+
+<%- include("partials/footer.ejs") %>
+</body>
+</html>
